@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Figgle" Version="0.3.0" />
     <PackageReference Include="microsoft.extensions.configuration" Version="2.2.0" />
     <PackageReference Include="microsoft.extensions.configuration.fileextensions" Version="2.2.0" />
     <PackageReference Include="microsoft.extensions.configuration.json" Version="2.2.0" />

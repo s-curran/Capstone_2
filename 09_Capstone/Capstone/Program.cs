@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Capstone.Views;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.IO;
 
@@ -16,6 +17,17 @@ namespace Capstone
             IConfigurationRoot configuration = builder.Build();
 
             string connectionString = configuration.GetConnectionString("Project");
+
+            /********************************************************************
+            // If you do not want to use CLIMenu, you can remove the following
+            *********************************************************************/
+            // Create any DAOs needed here, and then pass them into main menu...
+
+
+            MainMenu mainMenu = new MainMenu();  // You'll probably be adding daos to the constructor
+
+            // Run the menu.
+            mainMenu.Run();
         }
     }
 }
