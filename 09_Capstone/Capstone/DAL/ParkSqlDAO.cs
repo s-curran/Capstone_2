@@ -48,6 +48,41 @@ namespace Capstone.DAL
 
             return parks;
         }
+        public Park GetPark(string name)
+        {
+            Park park = new Park();
+            //IList<Park> parks = new List<Park>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    conn.Open();
+                    String Sql = "SELECT * FROM Park WHERE name = @name Order By name";
+
+                    SqlCommand cmd = new SqlCommand(Sql, conn);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
+                    {
+
+                        park.ParkId = Convert.ToInt32(rdr["park_id"]);
+                        park.Name = Convert.ToString(rdr["name"]);
+                        park.Location = Convert.ToString(rdr["location"]);
+                        park.EstablishedDate = Convert.ToDateTime(rdr["establish_date"]);
+                        park.Area = Convert.ToInt32(rdr["area"]);
+                        park.Visitors = Convert.ToInt32(rdr["visitors"]);
+                        park.Description = Convert.ToString(rdr["description"]);
+                        
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return park;
+        }
 
     }
 }

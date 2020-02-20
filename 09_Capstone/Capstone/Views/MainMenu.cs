@@ -47,23 +47,39 @@ namespace Capstone.Views
         /// <returns></returns>
         protected override bool ExecuteSelection(string choice)
         {
-            switch (choice)
+            if (menuOptions.ContainsKey(choice))
             {
-                case "1": // Do whatever option 1 is
-                    int i1 = GetInteger("Enter the first integer: ");
-                    int i2 = GetInteger("Enter the second integer: ");
-                    Console.WriteLine($"{i1} + {i2} = {i1+i2}");
-                    Pause("Press enter to continue");
-                    return true;    // Keep running the main menu
-                case "2": // Do whatever option 2 is
-                    WriteError("Not yet implemented");
-                    Pause("");
-                    return true;    // Keep running the main menu
-                case "3": // Create and show the sub-menu
-                    SubMenu1 sm = new SubMenu1();
-                    sm.Run();
-                    return true;    // Keep running the main menu
+                string name = menuOptions[choice];
+                Park park = ParkDAO.GetPark(name);
+
+                Console.WriteLine($"{park.Name}");
+                Console.WriteLine($"{park.Location}");
+                Console.WriteLine($"{park.EstablishedDate}");
+                Console.WriteLine($"{park.Area}");
+                Console.WriteLine($"{park.Visitors}");
+                Console.WriteLine("");
+                Console.WriteLine($"{park.Description}");
+                Console.ReadLine();
+                SubMenu1 subMenu1 = new SubMenu1();
+                return true;
             }
+            //switch (choice)
+            //{
+            //    case "1": // Do whatever option 1 is
+            //        int i1 = GetInteger("Enter the first integer: ");
+            //        int i2 = GetInteger("Enter the second integer: ");
+            //        Console.WriteLine($"{i1} + {i2} = {i1+i2}");
+            //        Pause("Press enter to continue");
+            //        return true;    // Keep running the main menu
+            //    case "2": // Do whatever option 2 is
+            //        WriteError("Not yet implemented");
+            //        Pause("");
+            //        return true;    // Keep running the main menu
+            //    case "3": // Create and show the sub-menu
+            //        SubMenu1 sm = new SubMenu1();
+            //        sm.Run();
+            //        return true;    // Keep running the main menu
+            //}
             return true;
         }
 
