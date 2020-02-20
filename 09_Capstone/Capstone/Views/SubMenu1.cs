@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Capstone.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Capstone.Views
@@ -9,15 +10,15 @@ namespace Capstone.Views
     public class SubMenu1 : CLIMenu
     {
         // Store any private variables, including DAOs here....
-
+        public Park park;
 
         /// <summary>
         /// Constructor adds items to the top-level menu
         /// </summary>
-        public SubMenu1(/** DAOs may be passed in... ***/) :
+        public SubMenu1(Park park) :
             base("Sub-Menu 1")
         {
-            // Store any values or DAOs passed in....
+            this.park = park;
         }
 
         protected override void SetMenuOptions()
@@ -53,6 +54,14 @@ namespace Capstone.Views
         protected override void BeforeDisplayMenu()
         {
             PrintHeader();
+            Console.WriteLine($"{park.Name}");
+            Console.WriteLine($"{park.Location}");
+            Console.WriteLine($"{park.EstablishedDate}");
+            Console.WriteLine($"{park.Area}");
+            Console.WriteLine($"{park.Visitors}");
+            Console.WriteLine("");
+            Console.WriteLine($"{park.Description}");
+            Console.ReadLine();
         }
 
         protected override void AfterDisplayMenu()

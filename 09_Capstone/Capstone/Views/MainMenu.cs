@@ -52,15 +52,8 @@ namespace Capstone.Views
                 string name = menuOptions[choice];
                 Park park = ParkDAO.GetPark(name);
 
-                Console.WriteLine($"{park.Name}");
-                Console.WriteLine($"{park.Location}");
-                Console.WriteLine($"{park.EstablishedDate}");
-                Console.WriteLine($"{park.Area}");
-                Console.WriteLine($"{park.Visitors}");
-                Console.WriteLine("");
-                Console.WriteLine($"{park.Description}");
-                Console.ReadLine();
-                SubMenu1 subMenu1 = new SubMenu1();
+                SubMenu1 subMenu1 = new SubMenu1(park);
+                subMenu1.Run();
                 return true;
             }
             //switch (choice)
