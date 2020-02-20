@@ -17,12 +17,12 @@ namespace Capstone.DAL
         public string startdate;
         public string enddate;
 
-        public IDictionary<int, decimal> AvailableSites(Campground campground, string startdate1, string enddate1)
+        public IDictionary<Site, decimal> AvailableSites(Campground campground, string startdate1, string enddate1)
         {
             startdate = startdate1;
             enddate = enddate1;
 
-            IDictionary<int, decimal> sites = new Dictionary<int, decimal>();
+            IDictionary<Site, decimal> sites = new Dictionary<Site, decimal>();
 
             DateTime.TryParse(startdate, out DateTime start);
             DateTime.TryParse(enddate, out DateTime end);
@@ -32,7 +32,7 @@ namespace Capstone.DAL
                 {
                     conn.Open();
 
-                    string sql = "SELECT DISTINCT TOP 5 s.site_id, daily_fee * DATEDIFF(Day, @startdate, @enddate) as totalFee FROM site s LEFT JOIN reservation r ON s.site_id = r.site_id JOIN campground c ON s.campground_id = c.campground_id WHERE c.name = @campground AND s.site_id NOT IN(SELECT site_id FROM reservation WHERE(@startdate BETWEEN from_date AND to_date) OR from_date IS NULL) AND s.site_id NOT IN(SELECT site_id FROM reservation WHERE(@enddate BETWEEN from_date AND to_date) OR from_date IS NULL) AND s.site_id NOT IN(SELECT site_id FROM reservation WHERE(from_date BETWEEN @startdate AND @enddate) OR from_date IS NULL)";
+                    string sql = "SELECT DISTINCT TOP 5 s.*, daily_fee * DATEDIFF(Day, @startdate, @enddate) as totalFee FROM site s LEFT JOIN reservation r ON s.site_id = r.site_id JOIN campground c ON s.campground_id = c.campground_id WHERE c.name = @campground AND s.site_id NOT IN(SELECT site_id FROM reservation WHERE(@startdate BETWEEN from_date AND to_date) OR from_date IS NULL) AND s.site_id NOT IN(SELECT site_id FROM reservation WHERE(@enddate BETWEEN from_date AND to_date) OR from_date IS NULL) AND s.site_id NOT IN(SELECT site_id FROM reservation WHERE(from_date BETWEEN @startdate AND @enddate) OR from_date IS NULL)";
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.AddWithValue("@campground", campground);
                     cmd.Parameters.AddWithValue("@startdate", start);
@@ -42,7 +42,16 @@ namespace Capstone.DAL
 
                     while (rdr.Read())
                     {
-                        int site = Convert.ToInt32(rdr["site_id"]);
+                        Site site = new Site();
+
+                        site.SiteId = Convert.ToInt32(rdr["site_id"]);
+                        site.CampgroundId = Convert.ToInt32(rdr["campground_id"]);
+                        site.MaxOccupancy = Convert.ToInt32(rdr["max_occupancy"]);
+                        site.IsAccessible = Convert.ToBoolean(rdr["accessible"]);
+                        site.MaxRVLength = Convert.ToInt32(rdr["max_rv_length"]);
+                        site.HasUtilities = Convert.ToBoolean(rdr["utilities"]);
+
+                        //int site = Convert.ToInt32(rdr["site_id"]);
                         decimal fee = Convert.ToDecimal(rdr["totalFee"]);
                         sites[site] = fee;
                     }
