@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Capstone.DAL
 {
-    public class ParkSqlDAO
+    public class ParkSqlDAO : IParkDAO
     {
         private string ConnectionString;
         public ParkSqlDAO(string DBConnectionString)
@@ -21,7 +21,7 @@ namespace Capstone.DAL
                 using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
                     conn.Open();
-                    String Sql = "SELECT * FROM Park";
+                    String Sql = "SELECT * FROM Park Order By name";
 
                     SqlCommand cmd = new SqlCommand(Sql, conn);
                     SqlDataReader rdr = cmd.ExecuteReader();

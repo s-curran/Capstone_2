@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Capstone.DAL
 {
-    public class ReservationSqlDAO
+    public class ReservationSqlDAO : IReservationDAO
     {
         private string ConnectionString;
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Capstone.DAL;
+using Capstone.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Capstone.Views
@@ -9,23 +11,31 @@ namespace Capstone.Views
     public class MainMenu : CLIMenu
     {
         // DAOs - Interfaces to our data objects can be stored here...
-        //protected ICityDAO cityDAO;
-        //protected ICountryDAO countryDAO;
+        private IParkDAO ParkDAO;
+        private ICampgroundDAO CampgroundDAO;
+        private ISiteDAO SiteDAO;
+        private IReservationDAO ReservationDAO;
 
         /// <summary>
         /// Constructor adds items to the top-level menu. YOu will likely have parameters for one or more DAO's here...
         /// </summary>
-        public MainMenu(/***ICityDAO cityDAO, ICountryDAO countryDAO***/) : base("Main Menu")
+        public MainMenu(IParkDAO parkDAO, ICampgroundDAO campgroundDAO, ISiteDAO siteDAO, IReservationDAO reservationDAO) : base("Main Menu")
         {
-            //this.cityDAO = cityDAO;
-            //this.countryDAO = countryDAO;
+            this.ParkDAO = parkDAO;
+            this.CampgroundDAO = campgroundDAO;
+            this.SiteDAO = siteDAO;
+            this.ReservationDAO = reservationDAO;
         }
 
         protected override void SetMenuOptions()
         {
-            this.menuOptions.Add("1", "Add 2 integers");
-            this.menuOptions.Add("2", "Menu option 2");
-            this.menuOptions.Add("3", "Go to a sub-menu");
+            int counter = 1;
+            foreach (Park park in ParkDAO.GetAllParks())
+            {
+                this.menuOptions.Add($"{counter}", park.Name);
+                counter++;
+            }
+
             this.menuOptions.Add("Q", "Quit program");
         }
 

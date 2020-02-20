@@ -6,10 +6,10 @@ using System.Text;
 
 namespace Capstone.DAL
 {
-    public class CampgroundSqlDAO
+    public class CampgroundSqlDAO : ICampgroundDAO
     {
         private string ConnectionString;
-        public CampgroundSqlDAO (string DBConnectionString)
+        public CampgroundSqlDAO(string DBConnectionString)
         {
             ConnectionString = DBConnectionString;
         }
