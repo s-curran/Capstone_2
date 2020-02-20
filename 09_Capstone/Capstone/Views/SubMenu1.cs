@@ -23,9 +23,9 @@ namespace Capstone.Views
 
         protected override void SetMenuOptions()
         {
-            this.menuOptions.Add("1", "Option 1");
-            this.menuOptions.Add("2", "Do Option 2 and return to Main");
-            this.menuOptions.Add("B", "Back to Main Menu");
+            this.menuOptions.Add("1", "View Campgrounds");
+            this.menuOptions.Add("2", "Search for Reservation");
+            this.menuOptions.Add("B", "Back to Previous Screen");
             this.quitKey = "B";
         }
 
@@ -40,7 +40,7 @@ namespace Capstone.Views
             switch (choice)
             {
                 case "1": // Do whatever option 1 is
-                    WriteError("Not yet implemented");
+                    
                     Pause("");
                     return true;
                 case "2": // Do whatever option 2 is
@@ -61,7 +61,6 @@ namespace Capstone.Views
             Console.WriteLine($"{park.Visitors}");
             Console.WriteLine("");
             Console.WriteLine($"{park.Description}");
-            Console.ReadLine();
         }
 
         protected override void AfterDisplayMenu()
