@@ -3,11 +3,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Capstone.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class ParksSqlDAOTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void GetAllParksTest()
         {
+
         }
     }
 }
