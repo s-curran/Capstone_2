@@ -13,7 +13,7 @@ namespace Capstone.DAL
         {
             ConnectionString = DBConnectionString;
         }
-        public IList<Campground> GetCampgrounds(Park park)
+        public IList<Campground> GetCampgrounds(String park)
         {
             IList<Campground> campgrounds = new List<Campground>();
 
