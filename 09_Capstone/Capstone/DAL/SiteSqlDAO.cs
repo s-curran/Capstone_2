@@ -15,10 +15,10 @@ namespace Capstone.DAL
         }
 
 
-        public IDictionary<Site, decimal> AvailableSites(string campground, DateTime start, DateTime end)
+        public IList<Site> AvailableSites(int campgroundId, DateTime start, DateTime end)
         {
 
-            IDictionary<Site, decimal> sites = new Dictionary<Site, decimal>();
+            IList<Site> sites = new List<Site>();
 
             try
             {
@@ -26,9 +26,9 @@ namespace Capstone.DAL
                 {
                     conn.Open();
 
-                    string sql = "SELECT DISTINCT TOP 5 s.*, daily_fee * DATEDIFF(Day, @startdate, @enddate) as totalFee FROM site s LEFT JOIN reservation r ON s.site_id = r.site_id JOIN campground c ON s.campground_id = c.campground_id WHERE c.name = @campground AND s.site_id NOT IN(SELECT site_id FROM reservation WHERE(@startdate BETWEEN from_date AND to_date) OR from_date IS NULL) AND s.site_id NOT IN(SELECT site_id FROM reservation WHERE(@enddate BETWEEN from_date AND to_date) OR from_date IS NULL) AND s.site_id NOT IN(SELECT site_id FROM reservation WHERE(from_date BETWEEN @startdate AND @enddate) OR from_date IS NULL)";
+                    string sql = "SELECT DISTINCT TOP 5 s.* FROM site s LEFT JOIN reservation r ON s.site_id = r.site_id JOIN campground c ON s.campground_id = c.campground_id WHERE c.campground_id = @campground AND s.site_id NOT IN(SELECT site_id FROM reservation WHERE(@startdate BETWEEN from_date AND to_date) OR from_date IS NULL) AND s.site_id NOT IN(SELECT site_id FROM reservation WHERE(@enddate BETWEEN from_date AND to_date) OR from_date IS NULL) AND s.site_id NOT IN(SELECT site_id FROM reservation WHERE(from_date BETWEEN @startdate AND @enddate) OR from_date IS NULL)";
                     SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@campground", campground);
+                    cmd.Parameters.AddWithValue("@campground", campgroundId);
                     cmd.Parameters.AddWithValue("@startdate", start);
                     cmd.Parameters.AddWithValue("@enddate", end);
 
@@ -45,9 +45,11 @@ namespace Capstone.DAL
                         site.MaxRVLength = Convert.ToInt32(rdr["max_rv_length"]);
                         site.HasUtilities = Convert.ToBoolean(rdr["utilities"]);
 
+                        sites.Add(site);
+
                         //int site = Convert.ToInt32(rdr["site_id"]);
-                        decimal fee = Convert.ToDecimal(rdr["totalFee"]);
-                        sites[site] = fee;
+                        //decimal fee = Convert.ToDecimal(rdr["totalFee"]);
+                        //sites[site] = fee;
                     }
                 }
             }

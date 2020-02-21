@@ -6,6 +6,6 @@ namespace Capstone.DAL
 {
     public interface ISiteDAO
     {
-        IDictionary<Site, decimal> AvailableSites(string campground, DateTime start, DateTime end);
+        IList<Site> AvailableSites(int campground, DateTime start, DateTime end);
     }
 }

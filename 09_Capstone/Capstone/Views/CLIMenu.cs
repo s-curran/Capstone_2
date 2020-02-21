@@ -138,6 +138,25 @@ namespace Capstone.Views
             return resultValue;
         }
 
+        static public DateTime GetDate(string message)
+        {
+            DateTime resultValue;
+            while (true)
+            {
+                Console.Write(message + " ");
+                string userInput = Console.ReadLine().Trim();
+                if (DateTime.TryParse(userInput, out resultValue))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("!!! Invalid input. Please enter a valid whole number.");
+                }
+            }
+            return resultValue;
+        }
+
         /// <summary>
         /// This continually prompts the user until they enter a valid double.
         /// </summary>
