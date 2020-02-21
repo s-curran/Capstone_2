@@ -76,6 +76,7 @@ namespace Capstone.Views
             Console.WriteLine($"{park.Visitors}");
             Console.WriteLine("");
             Console.WriteLine($"{park.Description}");
+            Console.WriteLine();
         }
 
         protected override void AfterDisplayMenu()

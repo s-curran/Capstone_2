@@ -31,11 +31,13 @@ namespace Capstone.Views
 
         protected override void SetMenuOptions()
         {
+
             foreach (Campground cg in CampgroundDAO.GetCampgrounds(park.ParkId))
             {
-                this.menuOptions.Add($"{cg.CampgroundId}", $"{cg.Name}{cg.OpenFrom}{cg.OpenTo}{cg.DailyFee}");
+                this.menuOptions.Add($"#{cg.CampgroundId, -10}", $"{cg.Name, -25}{cg.OpenFrom, -10}{cg.OpenTo, -10}{cg.DailyFee, -10:C}");
                 //Console.WriteLine($"{cg.CampgroundId,-10} {cg.Name,10} {cg.OpenFrom,-10} {cg.OpenTo,-10} {cg.DailyFee,10}");
             }
+            this.menuOptions.Add("", ""); //Add in an empty string for format purposes
             this.menuOptions.Add("B", "Return to Previous Screen");
             this.quitKey = "B";
         }
@@ -68,6 +70,7 @@ namespace Capstone.Views
                 IList<Site> sites = SiteDAO.AvailableSites(intChoice, startDate, endDate);
 
                 Console.WriteLine($"{"Site No."}{"Max Occup."}{"Accessible"}{"Max RV Length"}{"Utility"}{"Cost"}");
+
                 foreach (Site site in sites)
                 {
 
@@ -105,7 +108,8 @@ namespace Capstone.Views
             PrintHeader();
             Console.WriteLine($"{park.Name} Campgrounds");
             Console.WriteLine();
-            Console.WriteLine($"Name    Open    Close   Daily Fee");
+            Console.WriteLine($" {"",-10} {"Name",-25}{"Open",-10}{"Close",-10}{"Daily Fee",-10}");
+            Console.WriteLine("--------------------------------------------------------------------");
 
         }
 

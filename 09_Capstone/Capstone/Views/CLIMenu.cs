@@ -54,13 +54,14 @@ namespace Capstone.Views
 
                 BeforeDisplayMenu();
 
-                Console.WriteLine("\r\nPlease make a selection:");
+                //Console.WriteLine("\r\nPlease make a selection:");
                 foreach (KeyValuePair<string, string> menuItem in menuOptions)
                 {
-                    Console.WriteLine($"{menuItem.Key} - {menuItem.Value}");
+                    Console.WriteLine($"{menuItem.Key} {menuItem.Value}");
                 }
+                Console.WriteLine();
 
-                AfterDisplayMenu();
+                //AfterDisplayMenu();
 
                 string choice = GetString("Selection:").ToUpper();
 
