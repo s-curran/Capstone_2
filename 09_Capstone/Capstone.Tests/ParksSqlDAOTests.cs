@@ -64,5 +64,20 @@ namespace Capstone.Tests
             Assert.AreEqual(2, actual.Count);
 
         }
+        [TestMethod]
+
+        public void GetParkTest()
+        {
+            // Arrange
+            ParkSqlDAO dao = new ParkSqlDAO(connectionString);
+
+            // Act
+            Park actual = dao.GetPark(lastParkId);
+
+            // Assert 
+            Assert.AreEqual("Park2", actual.Name);
+
+        }
+
     }
 }

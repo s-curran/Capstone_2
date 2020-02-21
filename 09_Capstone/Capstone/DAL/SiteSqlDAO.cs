@@ -60,8 +60,5 @@ namespace Capstone.DAL
             }
             return sites;
         }
-
-
-
     }
 }

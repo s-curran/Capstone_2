@@ -15,6 +15,22 @@ namespace Capstone.Views
         // Store any private variables, including DAOs here....
         public Park park;
 
+        public IDictionary<int, string> months = new Dictionary<int, string>()
+        {
+            {1, "January"},
+            {2, "February"},
+            {3, "March"},
+            {4, "April"},
+            {5, "May"},
+            {6, "June"},
+            {7, "July"},
+            {8, "August"},
+            {9, "September"},
+            {10, "October"},
+            {11, "November"},
+            {12, "December"}
+        };
+
         /// <summary>
         /// Constructor adds items to the top-level menu
         /// </summary>
@@ -68,7 +84,7 @@ namespace Capstone.Views
             Console.WriteLine("--------------------------------------------------------------------");
             foreach(Campground cg in CampgroundDAO.GetCampgrounds(park.ParkId))
             {
-                Console.WriteLine($"#{cg.CampgroundId, -10}{cg.Name, -25}{cg.OpenFrom, -10}{cg.OpenTo, -10}{cg.DailyFee, -10:C}");
+                Console.WriteLine($"#{cg.CampgroundId, -10}{cg.Name, -25}{months[cg.OpenFrom], -10}{months[cg.OpenTo], -10}{cg.DailyFee, -10:C}");
             }
             Console.WriteLine();
 

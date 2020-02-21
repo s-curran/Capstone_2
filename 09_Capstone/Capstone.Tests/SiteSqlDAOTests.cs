@@ -15,6 +15,7 @@ namespace Capstone.Tests
         private TransactionScope transaction = null;
         private string connectionString = "Server=.\\SqlExpress;Database=NPCampground;Trusted_Connection=True;";
         private int lastSiteId;
+        private int lastCampgroundId;
         private int Confirmation;
 
         [TestInitialize]
@@ -41,6 +42,7 @@ namespace Capstone.Tests
                 while (rdr.Read())
                 {
                     lastSiteId = Convert.ToInt32(rdr["lastsite"]);
+                    lastCampgroundId = Convert.ToInt32(rdr["lastCampground"]);
                     Confirmation = Convert.ToInt32(rdr["lastres"]);
                 }
             }
@@ -60,7 +62,7 @@ namespace Capstone.Tests
             SiteSqlDAO dao = new SiteSqlDAO(connectionString);
 
             // Act
-            IDictionary<Site, decimal> actual = dao.AvailableSites("Yogi Bear", new DateTime(2020,04,05), new DateTime(2020,04,07));
+            IList<Site> actual = dao.AvailableSites(lastCampgroundId, new DateTime(2020,04,05), new DateTime(2020,04,07));
          
             // Assert 
             Assert.AreEqual(1, actual.Count);
