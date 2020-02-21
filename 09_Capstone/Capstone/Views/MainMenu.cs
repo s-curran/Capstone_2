@@ -29,11 +29,9 @@ namespace Capstone.Views
 
         protected override void SetMenuOptions()
         {
-            int counter = 1;
             foreach (Park park in ParkDAO.GetAllParks())
             {
-                this.menuOptions.Add($"{counter}", park.Name);
-                counter++;
+                this.menuOptions.Add($"{park.ParkId}", park.Name);
             }
 
             this.menuOptions.Add("Q", "Quit program");
@@ -49,10 +47,10 @@ namespace Capstone.Views
         {
             if (menuOptions.ContainsKey(choice))
             {
-                string name = menuOptions[choice];
-                Park park = ParkDAO.GetPark(name);
+                int intChoice = int.Parse(choice);
+                Park park = ParkDAO.GetPark(intChoice);
 
-                SubMenu1 subMenu1 = new SubMenu1(park);
+                SubMenu1 subMenu1 = new SubMenu1(park, ParkDAO, CampgroundDAO, SiteDAO, ReservationDAO);
                 subMenu1.Run();
                 return true;
             }
@@ -75,6 +73,7 @@ namespace Capstone.Views
             //}
             return true;
         }
+
 
         protected override void BeforeDisplayMenu()
         {

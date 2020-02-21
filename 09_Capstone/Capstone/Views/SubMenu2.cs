@@ -5,14 +5,8 @@ using System.Collections.Generic;
 
 namespace Capstone.Views
 {
-
-
-    /// <summary>
-    /// The top-level menu in our Market Application
-    /// </summary>
-    public class SubMenu1 : CLIMenu
+    public class SubMenu2 : CLIMenu
     {
-
         private IParkDAO ParkDAO;
         private ICampgroundDAO CampgroundDAO;
         private ISiteDAO SiteDAO;
@@ -24,8 +18,8 @@ namespace Capstone.Views
         /// <summary>
         /// Constructor adds items to the top-level menu
         /// </summary>
-        public SubMenu1(Park park, IParkDAO parkDAO, ICampgroundDAO campgroundDAO, ISiteDAO siteDAO, IReservationDAO reservationDAO) :
-            base("Sub-Menu 1")
+        public SubMenu2(Park park, IParkDAO parkDAO, ICampgroundDAO campgroundDAO, ISiteDAO siteDAO, IReservationDAO reservationDAO) :
+            base("Sub-Menu 2")
         {
             this.park = park;
             this.ParkDAO = parkDAO;
@@ -37,9 +31,8 @@ namespace Capstone.Views
 
         protected override void SetMenuOptions()
         {
-            this.menuOptions.Add("1", "View Campgrounds");
-            this.menuOptions.Add("2", "Search for Reservation");
-            this.menuOptions.Add("B", "Back to Previous Screen");
+            this.menuOptions.Add("1", "Search for Available Reservation");
+            this.menuOptions.Add("B", "Return to Previous Screen");
             this.quitKey = "B";
         }
 
@@ -54,8 +47,7 @@ namespace Capstone.Views
             switch (choice)
             {
                 case "1": // Do whatever option 1 is
-                    SubMenu2 sm2 = new SubMenu2(park, ParkDAO, CampgroundDAO, SiteDAO, ReservationDAO);
-                    sm2.Run();
+                    CampgroundDAO.GetCampgrounds(park.ParkId);
                     Pause("");
                     return true;
                 case "2": // Do whatever option 2 is
@@ -69,13 +61,15 @@ namespace Capstone.Views
         protected override void BeforeDisplayMenu()
         {
             PrintHeader();
-            Console.WriteLine($"{park.Name}");
-            Console.WriteLine($"{park.Location}");
-            Console.WriteLine($"{park.EstablishedDate}");
-            Console.WriteLine($"{park.Area}");
-            Console.WriteLine($"{park.Visitors}");
-            Console.WriteLine("");
-            Console.WriteLine($"{park.Description}");
+            Console.WriteLine($"{park.Name} Campgrounds");
+            Console.WriteLine();
+            Console.WriteLine($"Name    Open    Close   Daily Fee");
+
+            foreach(Campground cg in CampgroundDAO.GetCampgrounds(park.ParkId))
+            {
+                Console.WriteLine($"{cg.CampgroundId, -10} {cg.Name, 10} {cg.OpenFrom, -10} {cg.OpenTo, -10} {cg.DailyFee, 10}");
+            }
+            
         }
 
         protected override void AfterDisplayMenu()
@@ -89,7 +83,7 @@ namespace Capstone.Views
         private void PrintHeader()
         {
             SetColor(ConsoleColor.Magenta);
-            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("Sub-Menu 1"));
+            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("Sub-Menu 2"));
             ResetColor();
         }
 

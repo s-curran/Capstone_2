@@ -6,6 +6,6 @@ namespace Capstone.DAL
     public interface IParkDAO
     {
         IList<Park> GetAllParks();
-        Park GetPark(string name);
+        Park GetPark(int parkId);
     }
 }

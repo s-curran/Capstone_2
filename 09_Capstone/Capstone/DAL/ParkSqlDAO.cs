@@ -48,7 +48,7 @@ namespace Capstone.DAL
 
             return parks;
         }
-        public Park GetPark(string name)
+        public Park GetPark(int parkId)
         {
             Park park = new Park();
             //IList<Park> parks = new List<Park>();
@@ -57,10 +57,10 @@ namespace Capstone.DAL
                 using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
                     conn.Open();
-                    String Sql = "SELECT * FROM Park WHERE name = @name Order By name";
+                    String Sql = "SELECT * FROM Park WHERE park_id = @parkId Order By name";
 
                     SqlCommand cmd = new SqlCommand(Sql, conn);
-                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@parkId", parkId);
                     SqlDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {

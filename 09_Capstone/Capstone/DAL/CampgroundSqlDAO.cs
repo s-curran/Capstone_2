@@ -13,7 +13,7 @@ namespace Capstone.DAL
         {
             ConnectionString = DBConnectionString;
         }
-        public IList<Campground> GetCampgrounds(String park)
+        public IList<Campground> GetCampgrounds(int parkId)
         {
             IList<Campground> campgrounds = new List<Campground>();
 
@@ -23,10 +23,10 @@ namespace Capstone.DAL
                 {
                     conn.Open();
 
-                    string sql = "Select * from campground c JOIN park p ON c.park_id = p.park_id WHERE p.name = @park";
+                    string sql = "Select * from campground WHERE park_id = @park";
 
                     SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@park", park);
+                    cmd.Parameters.AddWithValue("@park", parkId);
 
                     SqlDataReader rdr = cmd.ExecuteReader();
 
