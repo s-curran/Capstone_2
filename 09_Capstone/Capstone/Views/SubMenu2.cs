@@ -47,7 +47,8 @@ namespace Capstone.Views
             switch (choice)
             {
                 case "1": // Do whatever option 1 is
-                    CampgroundDAO.GetCampgrounds(park.ParkId);
+                    SubMenu3 subMenu3 = new SubMenu3(park, ParkDAO, CampgroundDAO, SiteDAO, ReservationDAO);
+                    subMenu3.Run();
                     Pause("");
                     return true;
                 case "2": // Do whatever option 2 is
