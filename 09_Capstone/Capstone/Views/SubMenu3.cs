@@ -71,8 +71,15 @@ namespace Capstone.Views
                 foreach (Site site in sites)
                 {
 
-                    Console.WriteLine($"{site.SiteNumber}{site.MaxOccupancy}{site.IsAccessible}{site.MaxRVLength}{site.HasUtilities}{fee}");
+                    Console.WriteLine($"{site.SiteNumber}  {site.MaxOccupancy}  {site.IsAccessible}  {site.MaxRVLength}  {site.HasUtilities}  {fee:C}");
                 }
+
+                Console.WriteLine();
+                int site1 = GetInteger("Which site should be reserved? (enter 0 to cancel)");
+                string name = GetString("What name should the reservation be made under?");
+                int conf = ReservationDAO.BookReservation(name, site1, startDate, endDate);
+                Console.WriteLine();
+                Console.WriteLine($"The reservation has been made and the confirmation id is {conf}.");
                 Console.ReadLine();
             }
             else if (choice == "0")
