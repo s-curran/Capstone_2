@@ -85,8 +85,8 @@ namespace Capstone.Views
 
         private void PrintHeader()
         {
-            SetColor(ConsoleColor.Magenta);
-            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("Sub-Menu 2"));
+            SetColor(ConsoleColor.DarkBlue);
+            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("Campgrounds"));
             ResetColor();
         }
 

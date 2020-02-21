@@ -84,7 +84,7 @@ namespace Capstone.Views
         private void PrintHeader()
         {
             SetColor(ConsoleColor.Yellow);
-            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("My Program"));
+            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("National Parks"));
             ResetColor();
         }
     }

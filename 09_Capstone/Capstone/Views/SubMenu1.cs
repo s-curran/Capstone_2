@@ -70,10 +70,11 @@ namespace Capstone.Views
         {
             PrintHeader();
             Console.WriteLine($"{park.Name}");
-            Console.WriteLine($"{park.Location}");
-            Console.WriteLine($"{park.EstablishedDate}");
-            Console.WriteLine($"{park.Area}");
-            Console.WriteLine($"{park.Visitors}");
+            Console.WriteLine();
+            Console.WriteLine($"{"Location:", -20}{park.Location, -15}");
+            Console.WriteLine($"{"Established:",-20}{park.EstablishedDate.ToShortDateString(), -15}");
+            Console.WriteLine($"{"Area:",-20}{park.Area, -7:N0} sq km");
+            Console.WriteLine($"{"Annual Visitors:",-20}{park.Visitors, -15:N0}");
             Console.WriteLine("");
             Console.WriteLine($"{park.Description}");
             Console.WriteLine();
@@ -89,8 +90,8 @@ namespace Capstone.Views
 
         private void PrintHeader()
         {
-            SetColor(ConsoleColor.Magenta);
-            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("Sub-Menu 1"));
+            SetColor(ConsoleColor.DarkGreen);
+            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("Park Info"));
             ResetColor();
         }
 

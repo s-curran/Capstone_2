@@ -34,7 +34,7 @@ namespace Capstone.Views
 
             foreach (Campground cg in CampgroundDAO.GetCampgrounds(park.ParkId))
             {
-                this.menuOptions.Add($"#{cg.CampgroundId, -10}", $"{cg.Name, -25}{cg.OpenFrom, -10}{cg.OpenTo, -10}{cg.DailyFee, -10:C}");
+                this.menuOptions.Add($"{cg.CampgroundId}", $"{cg.Name,-25}{cg.OpenFrom,-10}{cg.OpenTo,-10}{cg.DailyFee,-10:C}");
                 //Console.WriteLine($"{cg.CampgroundId,-10} {cg.Name,10} {cg.OpenFrom,-10} {cg.OpenTo,-10} {cg.DailyFee,10}");
             }
             this.menuOptions.Add("", ""); //Add in an empty string for format purposes
@@ -52,7 +52,11 @@ namespace Capstone.Views
         {
             if (menuOptions.ContainsKey(choice))
             {
-                int intChoice = int.Parse(choice);
+                if (choice == "0")
+                {
+                    return false;
+                }
+                    int intChoice = int.Parse(choice);
                 DateTime startDate = GetDate("What is the arrival date?");
                 DateTime endDate = GetDate("What is the departure date?");
 
@@ -68,38 +72,42 @@ namespace Capstone.Views
                 decimal fee = camp.DailyFee * Convert.ToDecimal((endDate - startDate).TotalDays);
 
                 IList<Site> sites = SiteDAO.AvailableSites(intChoice, startDate, endDate);
-
-                Console.WriteLine($"{"Site No."}{"Max Occup."}{"Accessible"}{"Max RV Length"}{"Utility"}{"Cost"}");
-
-                foreach (Site site in sites)
+                if (sites.Count == 0)
                 {
-
-                    Console.WriteLine($"{site.SiteNumber}  {site.MaxOccupancy}  {site.IsAccessible}  {site.MaxRVLength}  {site.HasUtilities}  {fee:C}");
+                    string answer = GetString("There are no available sites in that date range, would you like to enter an alternate date range? (Y/N)");
+                    if (answer == "Y")
+                    {
+                        return false;
+                    }
                 }
+                else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"{"Site No.", -10}{"Max Occup.", -15}{"Accessible", -15}{"Max RV Length", -15}{"Utility", -15}{"Cost", -10}");
+                    Console.WriteLine("-----------------------------------------------------------------------------");
 
-                Console.WriteLine();
-                int site1 = GetInteger("Which site should be reserved? (enter 0 to cancel)");
-                string name = GetString("What name should the reservation be made under?");
-                int conf = ReservationDAO.BookReservation(name, site1, startDate, endDate);
-                Console.WriteLine();
-                Console.WriteLine($"The reservation has been made and the confirmation id is {conf}.");
-                Console.ReadLine();
+                    foreach (Site site in sites)
+                    {
+
+                        Console.WriteLine($"{site.SiteNumber, -10}{site.MaxOccupancy, -15}{site.IsAccessible, -15}{site.MaxRVLength, -15}{site.HasUtilities, -15}{fee, -10:C}");
+                    }
+
+                    Console.WriteLine();
+                    int site1 = GetInteger("Which site should be reserved? (enter 0 to cancel)");
+                    if (site1 == 0)
+                    {
+                        return false;
+                    }
+                    string name = GetString("What name should the reservation be made under?");
+                    int conf = ReservationDAO.BookReservation(name, site1, startDate, endDate);
+                    Console.WriteLine();
+                    Console.WriteLine($"The reservation has been made and the confirmation id is {conf}.");
+                    Console.ReadLine();
+                }
+            
+                
             }
-            else if (choice == "0")
-            {
-                return false;
-            }
-            //switch (choice)
-            //{
-            //    case "1": // Do whatever option 1 is
-            //        CampgroundDAO.GetCampgrounds(park.ParkId);
-            //        Pause("");
-            //        return true;
-            //    case "2": // Do whatever option 2 is
-            //        WriteError("Not yet implemented");
-            //        Pause("");
-            //        return false;
-            //}
+            
             return true;
         }
 
@@ -108,7 +116,7 @@ namespace Capstone.Views
             PrintHeader();
             Console.WriteLine($"{park.Name} Campgrounds");
             Console.WriteLine();
-            Console.WriteLine($" {"",-10} {"Name",-25}{"Open",-10}{"Close",-10}{"Daily Fee",-10}");
+            Console.WriteLine($"{"",-1} {"Name",-25}{"Open",-10}{"Close",-10}{"Daily Fee",-10}");
             Console.WriteLine("--------------------------------------------------------------------");
 
         }
@@ -123,8 +131,8 @@ namespace Capstone.Views
 
         private void PrintHeader()
         {
-            SetColor(ConsoleColor.Magenta);
-            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("Sub-Menu 2"));
+            SetColor(ConsoleColor.DarkYellow);
+            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("Reservations"));
             ResetColor();
         }
     }
